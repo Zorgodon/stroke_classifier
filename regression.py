@@ -35,11 +35,11 @@ def load(fname: str, training_ratio: float) -> tuple:
     X_test = X[n_rows:]
     y_train = y[:n_rows]
     y_test = y[n_rows:]
-    
+
     # reshape x to ensure it is 2D
     X_train = X_train.reshape(-1, 1)
     X_test = X_test.reshape(-1, 1)
-    
+
     # return all
     return X, y, X_train, y_train, X_test, y_test
 
@@ -62,3 +62,5 @@ class Regressor:
 
 
 dataset=Regressor(df)
+
+print(hello)
