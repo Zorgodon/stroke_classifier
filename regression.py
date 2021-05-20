@@ -5,9 +5,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from sklearn.linear_model import LinearRegression
-
-df = pd.read_csv('data/healthcare-dataset-stroke-data.csv')
-
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import svm
 
 def load(fname: str, training_ratio: float) -> tuple:
     # basic spliter for now
@@ -43,24 +43,23 @@ def load(fname: str, training_ratio: float) -> tuple:
     # return all
     return X, y, X_train, y_train, X_test, y_test
 
-X, y, X_train, y_train, X_test, y_test = load('data/400-regression.csv', 0.05)
-
 class Regressor:
-    # takes X_train y_train X-test y_test
-    def __init__(self, df: pd.DataFrame):
-        self.df = df
-        print(df)
-        print(df['stroke'])
+    """Container for analysing different metrics for a single regression class"""
+    def __init__(self, cls, fname, training_ratio, **kwargs):
+        # construct regressor object
+        self.regressor = cls(**kwargs)
 
-    def linear(self):
-        X = df[X_columns].to_numpy()
-        y = df[y_column].to_numpy()
-       # predict
-       # score
+        # use load function
+        self.X, self.y, self.X_train, self.y_train, self.X_test, self.y_test = load(fname, training_ratio)
 
-    def ridge(self):
+        # fit data
+        self.regressor.fit(self.X_train, self.y_train)
 
+        # get predicted data
+        self.y_pred = self.regressor.predict(self.X_test)
 
-dataset=Regressor(df)
+    def metric(self, cls, **kwargs) -> float:
+        """Takes a sklearn.metrics class and returns the score of the regressor object"""
 
-print(hello)
+        # use the metric class to get a score
+        return cls(self.y_test, self.y_pred)
