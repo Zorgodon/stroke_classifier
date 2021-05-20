@@ -14,21 +14,14 @@ def load(fname: str, training_ratio: float) -> tuple:
     """Loads 2 column data from a CSV file with 2 columns, x and y"""
     # read data
     data = pd.read_csv(fname)
-
+    y_column = 'stroke'
     # get training data
     n_rows = int(len(data) * training_ratio)
 
-    # for one x col only:
-    #X = data['x'].to_numpy()
-
     X_columns = list(data.columns)
-    #X_columns.index(y_column) #index
-    print(X_columns)
-    #.remove
     X_columns.remove(y_column)
     X = data[X_columns].to_numpy()
-
-    y = data['stroke'].to_numpy()
+    y = data[y_column].to_numpy()
 
     # do split
     X_train = X[:n_rows]
@@ -63,3 +56,6 @@ class Regressor:
 
         # use the metric class to get a score
         return cls(self.y_test, self.y_pred)
+
+logistic = Regressor(LogisticRegression, '/data/healthcare-dataset-stroke-data.csv', 0.1)
+logistic.regressor.score(regressor.X_test, regressor.y_test)
