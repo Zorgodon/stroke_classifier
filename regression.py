@@ -73,6 +73,3 @@ class Regressor:
 
         # use the metric class to get a score
         return cls(self.y_test, self.y_pred)
-
-logistic = Regressor(LogisticRegression, '/data/healthcare-dataset-stroke-data.csv', 0.1)
-logistic.regressor.score(regressor.X_test, regressor.y_test)
