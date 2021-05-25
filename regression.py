@@ -9,7 +9,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import svm
 
-def load(fname: str, training_ratio: float) -> tuple:
+# cv = tscv, kf, etc
+def load(fname: str, training_ratio: float, cv: str, num_splits: int = 5) -> tuple:
     # basic spliter for now
     """Loads 2 column data from a CSV file with 2 columns, x and y"""
     # read data
@@ -23,13 +24,29 @@ def load(fname: str, training_ratio: float) -> tuple:
     X = data[X_columns].to_numpy()
     y = data[y_column].to_numpy()
 
+    #  tscv = TimeSeriesSplit()
+    #  print(tscv)
+
+    # we want to override n_splits
+    tscv = TimeSeriesSplit(gap=0, max_train_size=None, n_splits=num_splits, test_size=None)
+    kf = KFold(n_splits=num_splits, random_state=None, shuffle=False)
+
+    # how are we going to cross-validate them
+
+    # common for all splitting techniques:
+    for train_index, test_index in cv.split(X):
+        print("TRAIN:", train_index, "TEST:", test_index)
+        X_train, X_test = X[train_index], X[test_index]
+        y_train, y_test = y[train_index], y[test_index]
+
     # do split
-    X_train = X[:n_rows]
-    X_test = X[n_rows:]
-    y_train = y[:n_rows]
-    y_test = y[n_rows:]
+    #X_train = X[:n_rows]
+    #X_test = X[n_rows:]
+    #y_train = y[:n_rows]
+    #y_test = y[n_rows:]
 
     # reshape x to ensure it is 2D
+    # fixme: already 2D?
     X_train = X_train.reshape(-1, 1)
     X_test = X_test.reshape(-1, 1)
 
