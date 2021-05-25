@@ -10,7 +10,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import svm
 
 # cv = tscv, kf, etc
-def load(fname: str, training_ratio: float, cv: str) -> tuple:
+def load(fname: str, cv: str) -> tuple:
     # basic spliter for now
     """Loads 2 column data from a CSV file with 2 columns, x and y"""
 
@@ -18,7 +18,7 @@ def load(fname: str, training_ratio: float, cv: str) -> tuple:
     data = pd.read_csv(fname)
     y_column = 'stroke'
     # get training data
-    n_rows = int(len(data) * training_ratio)
+    #n_rows = int(len(data) * training_ratio)
 
     X_columns = list(data.columns)
     X_columns.remove(y_column)
